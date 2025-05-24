@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/anaSayfaFragment">
+
+    <fragment
+        android:id="@+id/anaSayfaFragment"
+        android:name="com.mek.bootcampgraduationproject.ui.fragments.AnaSayfaFragment"
+        android:label="fragment_ana_sayfa"
+        tools:layout="@layout/fragment_ana_sayfa" />
+    <fragment
+        android:id="@+id/alisverisSepetFragment"
+        android:name="com.mek.bootcampgraduationproject.ui.fragments.AlisverisSepetFragment"
+        android:label="fragment_alisveris_sepet"
+        tools:layout="@layout/fragment_alisveris_sepet" />
+    <fragment
+        android:id="@+id/favorilerFragment"
+        android:name="com.mek.bootcampgraduationproject.ui.fragments.FavorilerFragment"
+        android:label="fragment_favoriler"
+        tools:layout="@layout/fragment_favoriler" />
+    <fragment
+        android:id="@+id/profilFragment"
+        android:name="com.mek.bootcampgraduationproject.ui.fragments.ProfilFragment"
+        android:label="fragment_profil"
+        tools:layout="@layout/fragment_profil" />
+    <fragment
+        android:id="@+id/urunDetayFragment"
+        android:name="com.mek.bootcampgraduationproject.ui.fragments.UrunDetayFragment"
+        android:label="fragment_urun_detay"
+        tools:layout="@layout/fragment_urun_detay" />
+</navigation>
