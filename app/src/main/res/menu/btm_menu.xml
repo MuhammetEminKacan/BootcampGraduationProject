@@ -13,11 +13,6 @@
         android:title="favoriler"
         />
 
-    <item
-        android:id="@+id/profilFragment"
-        android:icon="@drawable/ic_person"
-        android:title="profil"
-        />
 
     <item
         android:id="@+id/alisverisSepetFragment"
