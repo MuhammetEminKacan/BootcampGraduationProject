@@ -5,25 +5,46 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mek.bootcampgraduationproject.R
+import com.mek.bootcampgraduationproject.databinding.FragmentAnaSayfaBinding
+import com.mek.bootcampgraduationproject.ui.adapters.AnaSayfaAdapter
+import com.mek.bootcampgraduationproject.ui.viewmodels.AnaSayfaViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AnaSayfaFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private  var _binding : FragmentAnaSayfaBinding ?= null
+    private val binding get() = _binding!!
+    private val viewModel by viewModels<AnaSayfaViewModel>()
+    private lateinit var anaSayfaAdapter : AnaSayfaAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ana_sayfa, container, false)
+        _binding = FragmentAnaSayfaBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.observeMealsLiveData().observe(viewLifecycleOwner){ yemekListesi ->
+            val anaSayfaAdapter = AnaSayfaAdapter(yemekListesi)
+            binding.recyclerViewUrunler.apply {
+                layoutManager = GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
+                adapter = anaSayfaAdapter
+            }
+        }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
