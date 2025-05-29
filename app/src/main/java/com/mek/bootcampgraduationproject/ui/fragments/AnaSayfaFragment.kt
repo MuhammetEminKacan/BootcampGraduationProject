@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mek.bootcampgraduationproject.R
 import com.mek.bootcampgraduationproject.databinding.FragmentAnaSayfaBinding
@@ -20,7 +21,6 @@ class AnaSayfaFragment : Fragment() {
     private  var _binding : FragmentAnaSayfaBinding ?= null
     private val binding get() = _binding!!
     private val viewModel by viewModels<AnaSayfaViewModel>()
-    private lateinit var anaSayfaAdapter : AnaSayfaAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +33,15 @@ class AnaSayfaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeMealsLiveData().observe(viewLifecycleOwner){ yemekListesi ->
-            val anaSayfaAdapter = AnaSayfaAdapter(yemekListesi)
+        viewModel.observeMealsLiveData().observe(viewLifecycleOwner) { yemekListesi ->
+            val anaSayfaAdapter = AnaSayfaAdapter(yemekListesi) { secilenYemek ->
+                val action = AnaSayfaFragmentDirections
+                    .actionAnaSayfaFragmentToUrunDetayFragment(secilenYemek)
+                findNavController().navigate(action)
+            }
+
             binding.recyclerViewUrunler.apply {
-                layoutManager = GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
+                layoutManager = GridLayoutManager(context, 2)
                 adapter = anaSayfaAdapter
             }
         }

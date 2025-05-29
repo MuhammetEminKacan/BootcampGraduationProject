@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.mek.bootcampgraduationproject.databinding.UrunlerCardTasarimBinding
 import com.mek.bootcampgraduationproject.model.Yemekler
 
-class AnaSayfaAdapter(private val mealsList : List<Yemekler>) : RecyclerView.Adapter<AnaSayfaAdapter.mealsViewHolder>() {
+class AnaSayfaAdapter(private val mealsList : List<Yemekler>,private val onItemClick: (Yemekler) -> Unit) : RecyclerView.Adapter<AnaSayfaAdapter.mealsViewHolder>() {
 
     inner class mealsViewHolder(val binding:UrunlerCardTasarimBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -28,6 +28,12 @@ class AnaSayfaAdapter(private val mealsList : List<Yemekler>) : RecyclerView.Ada
 
             val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${yemek.yemekResimAdi}"
             Glide.with(holder.itemView).load(imageUrl).into(imgFood)
+        }
+
+        with(holder.binding){
+            imgFood.setOnClickListener {
+                onItemClick(yemek)
+            }
         }
     }
 

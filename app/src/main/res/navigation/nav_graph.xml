@@ -9,7 +9,11 @@
         android:id="@+id/anaSayfaFragment"
         android:name="com.mek.bootcampgraduationproject.ui.fragments.AnaSayfaFragment"
         android:label="fragment_ana_sayfa"
-        tools:layout="@layout/fragment_ana_sayfa" />
+        tools:layout="@layout/fragment_ana_sayfa" >
+        <action
+            android:id="@+id/action_anaSayfaFragment_to_urunDetayFragment"
+            app:destination="@id/urunDetayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/alisverisSepetFragment"
         android:name="com.mek.bootcampgraduationproject.ui.fragments.AlisverisSepetFragment"
@@ -24,5 +28,9 @@
         android:id="@+id/urunDetayFragment"
         android:name="com.mek.bootcampgraduationproject.ui.fragments.UrunDetayFragment"
         android:label="fragment_urun_detay"
-        tools:layout="@layout/fragment_urun_detay" />
+        tools:layout="@layout/fragment_urun_detay" >
+        <argument
+            android:name="yemek"
+            app:argType="com.mek.bootcampgraduationproject.model.Yemekler" />
+    </fragment>
 </navigation>

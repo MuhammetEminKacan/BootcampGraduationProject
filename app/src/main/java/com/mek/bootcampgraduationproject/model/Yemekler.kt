@@ -1,8 +1,11 @@
 package com.mek.bootcampgraduationproject.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Yemekler(
     @SerializedName("yemek_adi")
     val yemekAdi: String?,
@@ -12,4 +15,4 @@ data class Yemekler(
     val yemekResimAdi: String?,
     @SerializedName("yemek_id")
     val yemekİd: String?
-)
+) : Parcelable
