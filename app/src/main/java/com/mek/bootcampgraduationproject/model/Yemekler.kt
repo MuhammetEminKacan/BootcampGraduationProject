@@ -2,9 +2,12 @@ package com.mek.bootcampgraduationproject.model
 
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+@Entity(tableName = "favori_yemekler")
 @Parcelize
 data class Yemekler(
     @SerializedName("yemek_adi")
@@ -14,5 +17,5 @@ data class Yemekler(
     @SerializedName("yemek_resim_adi")
     val yemekResimAdi: String?,
     @SerializedName("yemek_id")
-    val yemekİd: String?
+    @PrimaryKey val yemekId: String
 ) : Parcelable

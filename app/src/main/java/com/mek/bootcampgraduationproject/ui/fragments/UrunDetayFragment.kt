@@ -5,22 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.mek.bootcampgraduationproject.R
 import com.mek.bootcampgraduationproject.databinding.FragmentUrunDetayBinding
 import com.mek.bootcampgraduationproject.model.Yemekler
+import com.mek.bootcampgraduationproject.ui.viewmodels.UrunDetayViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UrunDetayFragment : Fragment() {
     private var _binding : FragmentUrunDetayBinding ?= null
     private val binding get() = _binding!!
+    private val viewModel by viewModels<UrunDetayViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +40,37 @@ class UrunDetayFragment : Fragment() {
         binding.txtFoodDetail.text = gelenYemek.yemekAdi
         binding.txtFoodPrice.text = "$ ${gelenYemek.yemekFiyat}"
         binding.txtFoodName.text = gelenYemek.yemekAdi
+        viewModel.checkIfFavorited(gelenYemek.yemekId.toInt())
 
         binding.imgBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
         adetArttirma(gelenYemek)
+
+        binding.imgFavoriteBtn.setOnClickListener {
+            viewModel.addMealToFavorites(gelenYemek)
+            Toast.makeText(requireContext(), "favorilere eklendi", Toast.LENGTH_SHORT).show()
+            binding.imgFavoriteBtn.visibility = View.GONE
+            binding.imgFavoriteFullBtn.visibility = View.VISIBLE
+        }
+
+        binding.imgFavoriteFullBtn.setOnClickListener {
+            viewModel.deleteMealFromFavorites(gelenYemek)
+            Toast.makeText(requireContext(), "favorilerden çıkarıldı", Toast.LENGTH_SHORT).show()
+            binding.imgFavoriteBtn.visibility = View.VISIBLE
+            binding.imgFavoriteFullBtn.visibility = View.GONE
+        }
+
+        viewModel.observeIsFavorited().observe(viewLifecycleOwner){ isFavori ->
+            if (isFavori){
+                binding.imgFavoriteBtn.visibility = View.GONE
+                binding.imgFavoriteFullBtn.visibility = View.VISIBLE
+            }else{
+                binding.imgFavoriteBtn.visibility = View.VISIBLE
+                binding.imgFavoriteFullBtn.visibility = View.GONE
+            }
+        }
 
     }
 
@@ -68,6 +94,10 @@ class UrunDetayFragment : Fragment() {
                 totalPrice = count * yemekInfo.yemekFiyat!!.toInt()
                 binding.txtTotalPrice.text = totalPrice.toString()
             }
+
+        }
+
+        binding.imgFavoriteBtn.setOnClickListener {
 
         }
     }
