@@ -1,7 +1,6 @@
 package com.mek.bootcampgraduationproject.ui.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -48,13 +47,13 @@ class AnaSayfaAdapter(private val mealsList : List<Yemekler>,
                 yemek.yemekId?.let {
                     val isNowFavorited = !favoritedSet.contains(it.toInt())
 
-                    // Görsel güncelleme (hemen değişsin)
+
                     imgFav.setImageResource(
                         if (isNowFavorited) R.drawable.ic_favorite_full
                         else R.drawable.ic_favorite
                     )
 
-                    // ViewModel’a bildir (Room güncellemesi yapılır)
+
                     onFavoriteClick(yemek, isNowFavorited)
                 }
             }

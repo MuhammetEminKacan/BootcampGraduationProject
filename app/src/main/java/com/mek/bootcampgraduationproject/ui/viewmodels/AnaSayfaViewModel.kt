@@ -68,9 +68,6 @@ class AnaSayfaViewModel @Inject constructor(
 
     fun observeFavoriler(): LiveData<List<Yemekler>> = favoriYemeklerLiveData
 
-    fun observeIsFavorited() : LiveData<Boolean>{
-        return isFavorited
-    }
 
 
 
