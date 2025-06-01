@@ -1,7 +1,6 @@
 package com.mek.bootcampgraduationproject.retrofit
 
 import com.mek.bootcampgraduationproject.model.FoodModel
-import com.mek.bootcampgraduationproject.model.Yemekler
 import retrofit2.http.GET
 
 interface MealApi {

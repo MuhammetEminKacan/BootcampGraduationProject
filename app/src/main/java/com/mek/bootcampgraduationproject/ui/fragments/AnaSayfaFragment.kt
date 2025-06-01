@@ -33,19 +33,38 @@ class AnaSayfaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeMealsLiveData().observe(viewLifecycleOwner) { yemekListesi ->
-            val anaSayfaAdapter = AnaSayfaAdapter(yemekListesi) { secilenYemek ->
-                val action = AnaSayfaFragmentDirections
-                    .actionAnaSayfaFragmentToUrunDetayFragment(secilenYemek)
-                findNavController().navigate(action)
-            }
+        viewModel.getAllFavoriteMeals()
 
-            binding.recyclerViewUrunler.apply {
-                layoutManager = GridLayoutManager(context, 2)
-                adapter = anaSayfaAdapter
+        viewModel.observeMealsLiveData().observe(viewLifecycleOwner) { yemekListesi ->
+            viewModel.observeFavoriler().observe(viewLifecycleOwner) { favoriYemekler ->
+                val favoriIdSet = favoriYemekler.mapNotNull { it.yemekId.toIntOrNull() }.toSet()
+
+                val anaSayfaAdapter = AnaSayfaAdapter(
+                    yemekListesi,
+                    favoriIdSet,
+                    onItemClick = { secilenYemek ->
+                        val action = AnaSayfaFragmentDirections
+                            .actionAnaSayfaFragmentToUrunDetayFragment(secilenYemek)
+                        findNavController().navigate(action)
+                    },
+                    onFavoriteClick = { favoriYemek, isNowFavorited ->
+                        if (isNowFavorited) {
+                            viewModel.addMealToFavorites(favoriYemek)
+                        } else {
+                            viewModel.deleteMealFromFavorites(favoriYemek)
+                        }
+
+
+                        viewModel.getAllFavoriteMeals()
+                    }
+                )
+
+                binding.recyclerViewUrunler.apply {
+                    layoutManager = GridLayoutManager(context, 2)
+                    adapter = anaSayfaAdapter
+                }
             }
         }
-
     }
 
     override fun onDestroyView() {

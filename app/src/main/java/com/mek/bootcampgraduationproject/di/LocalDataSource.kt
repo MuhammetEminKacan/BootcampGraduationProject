@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class LocalDataSource @Inject constructor(private val mealDao : MealDao) {
+class LocalDataSource @Inject constructor(private val mealDao : MealDao)  {
 
     fun getAllMeals() : Flow<List<Yemekler>>{
         return mealDao.getAllMeals()

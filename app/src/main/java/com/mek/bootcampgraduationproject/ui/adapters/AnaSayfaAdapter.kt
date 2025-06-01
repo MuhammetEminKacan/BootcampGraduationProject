@@ -1,13 +1,19 @@
 package com.mek.bootcampgraduationproject.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mek.bootcampgraduationproject.R
 import com.mek.bootcampgraduationproject.databinding.UrunlerCardTasarimBinding
 import com.mek.bootcampgraduationproject.model.Yemekler
 
-class AnaSayfaAdapter(private val mealsList : List<Yemekler>,private val onItemClick: (Yemekler) -> Unit) : RecyclerView.Adapter<AnaSayfaAdapter.mealsViewHolder>() {
+class AnaSayfaAdapter(private val mealsList : List<Yemekler>,
+                      private val favoritedSet: Set<Int>,
+                      private val onItemClick: (Yemekler) -> Unit,
+                      private val onFavoriteClick: (Yemekler,Boolean) -> Unit
+                      ) : RecyclerView.Adapter<AnaSayfaAdapter.mealsViewHolder>() {
 
     inner class mealsViewHolder(val binding:UrunlerCardTasarimBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -19,6 +25,7 @@ class AnaSayfaAdapter(private val mealsList : List<Yemekler>,private val onItemC
 
     override fun getItemCount(): Int = mealsList.size
 
+
     override fun onBindViewHolder(holder: mealsViewHolder, position: Int) {
         val yemek = mealsList[position]
 
@@ -28,6 +35,29 @@ class AnaSayfaAdapter(private val mealsList : List<Yemekler>,private val onItemC
 
             val imageUrl = "http://kasimadalan.pe.hu/yemekler/resimler/${yemek.yemekResimAdi}"
             Glide.with(holder.itemView).load(imageUrl).into(imgFood)
+        }
+
+        with(holder.binding){
+            if (favoritedSet.contains(yemek.yemekId?.toInt())) {
+                imgFav.setImageResource(R.drawable.ic_favorite_full)
+            } else {
+                imgFav.setImageResource(R.drawable.ic_favorite)
+            }
+
+            imgFav.setOnClickListener {
+                yemek.yemekId?.let {
+                    val isNowFavorited = !favoritedSet.contains(it.toInt())
+
+                    // Görsel güncelleme (hemen değişsin)
+                    imgFav.setImageResource(
+                        if (isNowFavorited) R.drawable.ic_favorite_full
+                        else R.drawable.ic_favorite
+                    )
+
+                    // ViewModel’a bildir (Room güncellemesi yapılır)
+                    onFavoriteClick(yemek, isNowFavorited)
+                }
+            }
         }
 
         with(holder.binding){
