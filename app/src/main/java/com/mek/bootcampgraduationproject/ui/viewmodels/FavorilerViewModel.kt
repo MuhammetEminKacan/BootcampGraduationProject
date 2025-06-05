@@ -25,5 +25,14 @@ class FavorilerViewModel @Inject constructor(private val repository: RoomReposit
         }
     }
 
+    fun deleteMealFromFavorites(yemek: Yemekler){
+        viewModelScope.launch {
+            repository.localDataSource.deleteMeal(yemek)
+        }
+    }
+
+
     fun observeFavoriler(): LiveData<List<Yemekler>> = favoriYemekler
+
+
 }

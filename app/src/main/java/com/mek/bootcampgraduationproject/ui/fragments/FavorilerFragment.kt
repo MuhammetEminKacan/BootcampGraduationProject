@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,12 +36,20 @@ class FavorilerFragment : Fragment() {
         viewModel.getAllFavoriteMeals()
 
         viewModel.observeFavoriler().observe(viewLifecycleOwner){ yemekler ->
-            val favorilerAdapter = FavorilerAdapter(yemekler)
+            val favorilerAdapter = FavorilerAdapter(
+                favoriteMealsList = yemekler,
+                onDeleteClick = { silinecekYemek ->
+                    viewModel.deleteMealFromFavorites(silinecekYemek)
+                    Toast.makeText(requireContext(), "seçtiğiniz yemek favorilerden silindi", Toast.LENGTH_SHORT).show()
+                    viewModel.getAllFavoriteMeals()
+                })
 
             binding.rvFavorites.apply {
                 layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
                 adapter = favorilerAdapter
             }
+
+            binding.rvFavorites
         }
 
 

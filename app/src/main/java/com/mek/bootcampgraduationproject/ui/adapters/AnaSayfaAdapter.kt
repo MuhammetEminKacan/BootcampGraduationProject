@@ -11,7 +11,8 @@ import com.mek.bootcampgraduationproject.model.Yemekler
 class AnaSayfaAdapter(private val mealsList : List<Yemekler>,
                       private val favoritedSet: Set<Int>,
                       private val onItemClick: (Yemekler) -> Unit,
-                      private val onFavoriteClick: (Yemekler,Boolean) -> Unit
+                      private val onFavoriteClick: (Yemekler,Boolean) -> Unit,
+                      private val onAddToCartClick: (Yemekler) -> Unit
                       ) : RecyclerView.Adapter<AnaSayfaAdapter.mealsViewHolder>() {
 
     inner class mealsViewHolder(val binding:UrunlerCardTasarimBinding) : RecyclerView.ViewHolder(binding.root)
@@ -62,6 +63,10 @@ class AnaSayfaAdapter(private val mealsList : List<Yemekler>,
         with(holder.binding){
             imgFood.setOnClickListener {
                 onItemClick(yemek)
+            }
+
+            imgAdd.setOnClickListener {
+                onAddToCartClick(yemek)
             }
         }
     }

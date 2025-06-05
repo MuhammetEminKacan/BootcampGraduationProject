@@ -9,7 +9,7 @@ import com.mek.bootcampgraduationproject.databinding.UrunCardTasarimBinding
 import com.mek.bootcampgraduationproject.databinding.UrunlerCardTasarimBinding
 import com.mek.bootcampgraduationproject.model.Yemekler
 
-class FavorilerAdapter(private val favoriteMealsList : List<Yemekler>) : RecyclerView.Adapter<FavorilerAdapter.favoriteMealsViewHolder>() {
+class FavorilerAdapter(private val favoriteMealsList : List<Yemekler>,private val onDeleteClick: (Yemekler) -> Unit) : RecyclerView.Adapter<FavorilerAdapter.favoriteMealsViewHolder>() {
 
     inner class favoriteMealsViewHolder(val binding : UrunCardTasarimBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -33,6 +33,10 @@ class FavorilerAdapter(private val favoriteMealsList : List<Yemekler>) : Recycle
             txtCount.visibility = View.GONE
             txtCountInfo.visibility = View.GONE
             txtTotalPrice.visibility = View.GONE
+
+            imgClose.setOnClickListener {
+                onDeleteClick(favYemek)
+            }
 
         }
     }
