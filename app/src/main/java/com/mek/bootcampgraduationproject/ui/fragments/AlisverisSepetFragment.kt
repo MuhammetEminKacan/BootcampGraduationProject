@@ -39,7 +39,7 @@ class AlisverisSepetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getMeals("muhammet_emin")
+        viewModel.getMeals("emin_seyfi")
         viewModel.observeMealsLiveData().observe(viewLifecycleOwner){sepet ->
             for (yemek in sepet){
                 if (yemek.yemekAdi !=null){

@@ -1,6 +1,7 @@
 package com.mek.bootcampgraduationproject.di
 
 import com.mek.bootcampgraduationproject.model.FoodModel
+import com.mek.bootcampgraduationproject.model.SepetYemeklerResponse
 import com.mek.bootcampgraduationproject.model.Yemekler
 import com.mek.bootcampgraduationproject.retrofit.MealApi
 import javax.inject.Inject
@@ -18,7 +19,7 @@ class RemoteDataSource @Inject constructor(private val mealApi : MealApi) {
         kullaniciAdi: String
     ) = mealApi.addMealToCart(yemekAdi, yemekResimAdi, yemekFiyat, yemekSiparisAdet, kullaniciAdi)
 
-    suspend fun getCardItems(kullaniciAdi: String) : FoodModel{
+    suspend fun getCardItems(kullaniciAdi: String) : SepetYemeklerResponse{
         return mealApi.getCartItems(kullaniciAdi)
     }
 }

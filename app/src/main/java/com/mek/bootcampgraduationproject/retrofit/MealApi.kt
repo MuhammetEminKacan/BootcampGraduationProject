@@ -1,6 +1,8 @@
 package com.mek.bootcampgraduationproject.retrofit
 
+import com.mek.bootcampgraduationproject.model.CrudResponse
 import com.mek.bootcampgraduationproject.model.FoodModel
+import com.mek.bootcampgraduationproject.model.SepetYemeklerResponse
 import okhttp3.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -21,8 +23,9 @@ interface MealApi {
         @Field("yemek_fiyat") yemekFiyat: Int,
         @Field("yemek_siparis_adet") yemekSiparisAdet: Int,
         @Field("kullanici_adi") kullaniciAdi: String
-    ): FoodModel
+    ): CrudResponse
 
-    @GET("sepettekiYemekleriGetir.php")
-    suspend fun getCartItems(@Query("kullanici_adi") kullaniciAdi : String) : FoodModel
+    @POST("sepettekiYemekleriGetir.php")
+    @FormUrlEncoded
+    suspend fun getCartItems(@Field("kullanici_adi") kullaniciAdi : String) : SepetYemeklerResponse
 }

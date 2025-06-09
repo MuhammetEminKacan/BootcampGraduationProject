@@ -26,14 +26,14 @@ class AnaSayfaViewModel @Inject constructor(
     }
 
 
-    fun addToCart(yemek: Yemekler, adet: Int , kullaniciAdi: String = "muhammet_emin") {
+    fun addToCart(yemek: Yemekler, adet: Int , kullaniciAdi: String = "emin_seyfi") {
         viewModelScope.launch {
             try {
                 yemek.yemekAdi?.let { adi ->
                     yemek.yemekResimAdi?.let { resimAdi ->
                         val fiyat = yemek.yemekFiyat?.toIntOrNull() ?: 0
-                        repository.remoteData.addMealToCart(adi, resimAdi, fiyat, adet, kullaniciAdi)
-                        Log.d("Sepet", "Başarıyla sepete eklendi")
+                        val response = repository.remoteData.addMealToCart(adi, resimAdi, fiyat, adet, kullaniciAdi)
+                        Log.d("Sepet", "Sunucu cevabı: $response")
                     }
                 }
             } catch (e: Exception) {
