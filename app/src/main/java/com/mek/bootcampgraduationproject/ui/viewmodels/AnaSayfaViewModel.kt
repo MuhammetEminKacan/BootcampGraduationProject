@@ -1,6 +1,9 @@
 package com.mek.bootcampgraduationproject.ui.viewmodels
 
+import android.app.Application
 import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnaSayfaViewModel @Inject constructor(
-    private val repository : Repository,private val repo : RoomRepository) :ViewModel() {
+    private val repository : Repository,private val repo : RoomRepository,application: Application) :AndroidViewModel(application) {
 
     private val meals = MutableLiveData<List<Yemekler>>()
     val favoriYemeklerLiveData = MutableLiveData<List<Yemekler>>()
@@ -32,11 +35,13 @@ class AnaSayfaViewModel @Inject constructor(
                 yemek.yemekAdi?.let { adi ->
                     yemek.yemekResimAdi?.let { resimAdi ->
                         val fiyat = yemek.yemekFiyat?.toIntOrNull() ?: 0
-                        val response = repository.remoteData.addMealToCart(adi, resimAdi, fiyat, adet, kullaniciAdi)
-                        Log.d("Sepet", "Sunucu cevabı: $response")
+                        repository.remoteData.addMealToCart(adi, resimAdi, fiyat, adet, kullaniciAdi)
+                        
                     }
                 }
             } catch (e: Exception) {
+                val context = getApplication<Application>()
+                Toast.makeText(context, "yemek sepete eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show()
                 Log.e("Sepet", "Sepete eklenirken hata: ${e.localizedMessage}")
             }
         }

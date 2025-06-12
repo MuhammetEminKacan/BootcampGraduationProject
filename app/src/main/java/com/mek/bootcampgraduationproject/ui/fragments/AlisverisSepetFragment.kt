@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mek.bootcampgraduationproject.R
 import com.mek.bootcampgraduationproject.databinding.FragmentAlisverisSepetBinding
+import com.mek.bootcampgraduationproject.model.SepetYemek
+import com.mek.bootcampgraduationproject.ui.adapters.SepetAdapter
 import com.mek.bootcampgraduationproject.ui.viewmodels.AlisverisSepetViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,14 +23,6 @@ class AlisverisSepetFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<AlisverisSepetViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,18 +37,36 @@ class AlisverisSepetFragment : Fragment() {
 
         viewModel.getMeals("emin_seyfi")
         viewModel.observeMealsLiveData().observe(viewLifecycleOwner){sepet ->
-            for (yemek in sepet){
-                if (yemek.yemekAdi !=null){
-                    Log.e("sepet","${yemek.yemekAdi}")
-                }else{
-                    Log.e("sepet","null geliyor")
+            val gruplanmisListe = sepet
+                .groupBy { it.yemekAdi }
+                .map { (_, yemekGrubu) ->
+                    val ilkYemek = yemekGrubu.first()
+                    val toplamAdet = yemekGrubu.sumOf { it.yemekSiparisAdet }
+
+                    ilkYemek.copy(yemekSiparisAdet = toplamAdet)
                 }
 
+            val sepetAdapter = SepetAdapter(gruplanmisListe)
+
+            binding.rvSepet.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                adapter = sepetAdapter
             }
+
+            val toplamTutar = gruplanmisListe.sumOf { it.yemekFiyat * it.yemekSiparisAdet }
+            binding.totalSepetTutar.text = "$ ${toplamTutar}"
         }
 
 
+
+
+
+
+
+
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

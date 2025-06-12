@@ -22,11 +22,6 @@ class AlisverisSepetViewModel @Inject constructor(private val repository : Repos
      fun getMeals(kullaniciAdi : String){
         viewModelScope.launch {
             val response = repository.remoteData.getCardItems(kullaniciAdi)
-            if (response.yemekler == null){
-                Log.e("AlisverisSepetVM","null geldi")
-            }else{
-                Log.e("AlisverisSepetVM", "Sepet Response: ${response}")
-            }
             meals.value = response.yemekler ?: emptyList()
         }
     }
