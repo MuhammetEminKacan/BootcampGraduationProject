@@ -19,10 +19,15 @@ class AlisverisSepetViewModel @Inject constructor(private val repository : Repos
 
 
 
-     fun getMeals(kullaniciAdi : String){
+    fun getMeals(kullaniciAdi: String) {
         viewModelScope.launch {
-            val response = repository.remoteData.getCardItems(kullaniciAdi)
-            meals.value = response.yemekler ?: emptyList()
+            try {
+                val response = repository.remoteData.getCardItems(kullaniciAdi)
+                meals.value = response.yemekler ?: emptyList()
+            } catch (e: Exception) {
+                Log.e("AlisverisSepetViewModel", "getMeals HATA: ${e.localizedMessage}")
+                meals.value = emptyList()
+            }
         }
     }
 
