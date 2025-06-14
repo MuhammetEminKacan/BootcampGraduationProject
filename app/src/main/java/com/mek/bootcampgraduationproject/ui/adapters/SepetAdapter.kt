@@ -2,12 +2,13 @@ package com.mek.bootcampgraduationproject.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mek.bootcampgraduationproject.databinding.UrunCardTasarimBinding
 import com.mek.bootcampgraduationproject.model.SepetYemek
 
-class SepetAdapter(private val sepetList : List<SepetYemek>) : RecyclerView.Adapter<SepetAdapter.sepetCardTasarımViewHolder>() {
+class SepetAdapter(private val sepetList : List<SepetYemek>,private val onDeleteClick: (SepetYemek) -> Unit) : RecyclerView.Adapter<SepetAdapter.sepetCardTasarımViewHolder>() {
 
     inner class sepetCardTasarımViewHolder(val binding : UrunCardTasarimBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -34,8 +35,10 @@ class SepetAdapter(private val sepetList : List<SepetYemek>) : RecyclerView.Adap
 
             Glide.with(holder.itemView).load(resimLink).into(imgFoodCard)
 
-
-
+            imgClose.setOnClickListener {
+                onDeleteClick(gelenYemek)
+                Toast.makeText(holder.itemView.context, "yemek sepetten silindi", Toast.LENGTH_SHORT).show()
+            }
 
         }
 

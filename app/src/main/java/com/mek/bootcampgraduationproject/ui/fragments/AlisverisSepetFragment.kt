@@ -46,7 +46,9 @@ class AlisverisSepetFragment : Fragment() {
                     ilkYemek.copy(yemekSiparisAdet = toplamAdet)
                 }
 
-            val sepetAdapter = SepetAdapter(gruplanmisListe)
+            val sepetAdapter = SepetAdapter(gruplanmisListe){ secilenYemek ->
+                viewModel.deleteMealFromCards(secilenYemek.sepetYemekId,"emin_seyfi")
+            }
 
             binding.rvSepet.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

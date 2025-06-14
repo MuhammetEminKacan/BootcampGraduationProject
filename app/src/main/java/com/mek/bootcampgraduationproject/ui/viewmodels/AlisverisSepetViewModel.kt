@@ -26,6 +26,13 @@ class AlisverisSepetViewModel @Inject constructor(private val repository : Repos
         }
     }
 
+    fun deleteMealFromCards(yemekId : Int,kullaniciAdi: String){
+        viewModelScope.launch {
+            repository.remoteData.deleteMealFromCart(yemekId,kullaniciAdi)
+            getMeals(kullaniciAdi)
+        }
+    }
+
     fun observeMealsLiveData() : LiveData<List<SepetYemek>> {
         return meals
     }

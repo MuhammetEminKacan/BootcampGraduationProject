@@ -25,6 +25,13 @@ interface MealApi {
         @Field("kullanici_adi") kullaniciAdi: String
     ): CrudResponse
 
+    @FormUrlEncoded
+    @POST("sepettenYemekSil.php")
+    suspend fun deleteMealFromCart(
+        @Field("sepet_yemek_id") sepetYemekId: Int,
+        @Field("kullanici_adi") kullaniciAdi: String
+    ) : CrudResponse
+
     @POST("sepettekiYemekleriGetir.php")
     @FormUrlEncoded
     suspend fun getCartItems(@Field("kullanici_adi") kullaniciAdi : String) : SepetYemeklerResponse

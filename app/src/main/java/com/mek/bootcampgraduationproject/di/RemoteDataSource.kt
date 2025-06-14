@@ -19,6 +19,11 @@ class RemoteDataSource @Inject constructor(private val mealApi : MealApi) {
         kullaniciAdi: String
     ) = mealApi.addMealToCart(yemekAdi, yemekResimAdi, yemekFiyat, yemekSiparisAdet, kullaniciAdi)
 
+    suspend fun deleteMealFromCart(
+        sepetYemekId: Int,
+        kullaniciAdi: String
+    ) = mealApi.deleteMealFromCart(sepetYemekId = sepetYemekId, kullaniciAdi = kullaniciAdi)
+
     suspend fun getCardItems(kullaniciAdi: String) : SepetYemeklerResponse{
         return mealApi.getCartItems(kullaniciAdi)
     }
