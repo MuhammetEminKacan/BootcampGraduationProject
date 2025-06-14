@@ -72,6 +72,13 @@ class UrunDetayFragment : Fragment() {
             }
         }
 
+        binding.addToCard.setOnClickListener{
+            val countText = binding.txtCount.text.toString()
+            val count = countText.toIntOrNull() ?: 0
+            viewModel.addToCart(gelenYemek,count,"emin_seyfi")
+            Toast.makeText(requireContext(), "sepete eklendi", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun adetArttirma(yemekInfo : Yemekler) {

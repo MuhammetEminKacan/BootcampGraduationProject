@@ -1,6 +1,8 @@
 package com.mek.bootcampgraduationproject.ui.viewmodels
 
 import android.app.Application
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +17,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class UrunDetayViewModel @Inject constructor(application: Application,private val repository: RoomRepository) : AndroidViewModel(application) {
+class UrunDetayViewModel @Inject constructor(application: Application,private val repository: RoomRepository,private val repo : Repository) : AndroidViewModel(application) {
 
     private var isFavorited = MutableLiveData<Boolean>()
 
@@ -42,6 +44,24 @@ class UrunDetayViewModel @Inject constructor(application: Application,private va
 
     fun observeIsFavorited() : LiveData<Boolean>{
         return isFavorited
+    }
+
+    fun addToCart(yemek: Yemekler, adet: Int , kullaniciAdi: String = "emin_seyfi") {
+        viewModelScope.launch {
+            try {
+                yemek.yemekAdi?.let { adi ->
+                    yemek.yemekResimAdi?.let { resimAdi ->
+                        val fiyat = yemek.yemekFiyat?.toIntOrNull() ?: 0
+                        repo.remoteData.addMealToCart(adi, resimAdi, fiyat, adet, kullaniciAdi)
+
+                    }
+                }
+            } catch (e: Exception) {
+                val context = getApplication<Application>()
+                Toast.makeText(context, "yemek sepete eklenirken bir hata oluştu", Toast.LENGTH_SHORT).show()
+                Log.e("Sepet", "Sepete eklenirken hata: ${e.localizedMessage}")
+            }
+        }
     }
 
 
