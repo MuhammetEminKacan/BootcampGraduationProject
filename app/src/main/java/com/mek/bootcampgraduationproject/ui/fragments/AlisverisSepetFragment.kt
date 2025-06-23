@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +58,13 @@ class AlisverisSepetFragment : Fragment() {
 
             val toplamTutar = gruplanmisListe.sumOf { it.yemekFiyat * it.yemekSiparisAdet }
             binding.totalSepetTutar.text = "$ ${toplamTutar}"
+        }
+
+        binding.sepetOnay.setOnClickListener {
+            for(i in 0 until viewModel.observeMealsLiveData().value!!.size){
+                viewModel.deleteMealFromCards(viewModel.observeMealsLiveData().value!![i].sepetYemekId,"emin_seyfi")
+            }
+            Toast.makeText(requireContext(), "sipariş oluşturuldu ", Toast.LENGTH_SHORT).show()
         }
 
 
