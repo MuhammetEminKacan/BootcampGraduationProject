@@ -13,8 +13,10 @@ Bu proje, Kotlin ile geliştirilen bir mobil uygulamadır. Kullanıcılar yemekl
 
 - Yemekleri listeleme
 - Sepete ekleme / çıkarma
-- Detay sayfası
-- API üzerinden veri çekme (REST)
+- ürün Detay sayfası
+- room veritabanı ile favorilere ekleme 
+- API üzerinden veri çekme
+- API üzerinden sepete veri ekleme ve veri çıkarma 
 - Room veritabanı entegrasyonu
 - MVVM + Dagger Hilt mimarisi
 
