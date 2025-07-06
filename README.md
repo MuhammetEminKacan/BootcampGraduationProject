@@ -24,6 +24,7 @@ Bu proje, Kotlin ile geliştirilen bir mobil uygulamadır. Kullanıcılar yemekl
 
 - Kotlin
 - MVVM
+- live data
 - Retrofit
 - Room
 - Dagger Hilt
